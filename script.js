@@ -8,6 +8,8 @@
   example.addEventListener("click", function() {
     const cw2Form = document.getElementById('cw2-form');
     cw2Form.style.display = 'none';
+    const cw3Form = document.getElementById('cw3-form');
+    cw3Form.style.display = 'none';
     fetch('https://jsonplaceholder.typicode.com/posts')
       .then(response => response.json())
       .then(array => {
@@ -19,6 +21,8 @@
   cw1.addEventListener("click", function() {
     const cw2Form = document.getElementById('cw2-form');
     cw2Form.style.display = 'none';
+    const cw3Form = document.getElementById('cw3-form');
+    cw3Form.style.display = 'none';
     answer.innerHTML = 'Loading...';
     setTimeout(() => {
       fetch('https://jsonplaceholder.typicode.com/posts')
@@ -41,6 +45,8 @@
   cw2.addEventListener("click", function() {
     const cw2Form = document.getElementById('cw2-form');
     cw2Form.style.display = 'block';
+    const cw3Form = document.getElementById('cw3-form');
+    cw3Form.style.display = 'none';
     answer.innerHTML = '';
   })
 
@@ -64,7 +70,36 @@
   })
 
   cw3.addEventListener("click", function() {
-    //TODO
+    const cw2Form = document.getElementById('cw2-form');
+    cw2Form.style.display = 'none';
+    const cw3Form = document.getElementById('cw3-form');
+    cw3Form.style.display = 'block';
+    answer.innerHTML = '';
   })
+  
+  const createPostBtn = document.getElementById('createPost');
+  createPostBtn.addEventListener("click", function() {
+    const title = document.getElementById('newTitle').value;
+    const body = document.getElementById('newBody').value;
+
+    answer.innerHTML = 'Processing…';
+
+    fetch('https://jsonplaceholder.typicode.com/posts', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+      body: JSON.stringify({
+        title: title,
+        body: body,
+        userId: 1
+      })
+    })
+    .then(response => response.json())
+    .then(post => {
+      console.log(post);
+      answer.innerHTML = `Dodano nowy post o ID = ${post.id}`;
+    })
+  });
 
 })();
